@@ -4000,7 +4000,8 @@ function initialize_language_strings() {
 	arr["ARABIC",209]="[\${normal_color}\${showcharset}\${blue_color}] :مجموعة الأحرف المراد استخدامها هي"
 	arr["CHINESE",209]="要使用的字符集是: [\${normal_color}\${showcharset}\${blue_color}]"
 
-	arr["ENGLISH",210]="The script will check for internet access looking for a newer version. Please be patient..."
+	# arr["ENGLISH",210]="The script will check for internet access looking for a newer version. Please be patient..."
+	arr["ENGLISH",210]="Akses auto-update sementara dimatikan. Tunggu aja pembaruannya, hatur tengkyu..."
 	arr["SPANISH",210]="El script va a comprobar si tienes acceso a internet para ver si existe una nueva versión. Por favor ten paciencia..."
 	arr["FRENCH",210]="Le script va vérifier que vous aillez accès à internet pour voir si une nouvelle version du script est disponible. Soyez patients s'il vous plaît..."
 	arr["CATALAN",210]="El script va a comprovar si tens accés a internet per veure si hi ha una nova versió. Si us plau té paciència..."

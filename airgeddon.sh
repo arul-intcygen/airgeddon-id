@@ -16644,6 +16644,7 @@ function check_compatibility() {
 
 		echo
 		language_strings "${language}" 110 "yellow"
+		language_strings "${language}" 210 "blue"
 	fi
 }
 
@@ -16678,6 +16679,7 @@ function check_update_tools() {
 			language_strings "${language}" 115 "read"
 		else
 			if [ "${update_toolsok}" -eq 1 ]; then
+				echo "Auto-update sementara dimatikan"
 				autoupdate_check
 			else
 				echo
@@ -17935,62 +17937,64 @@ function validate_et_internet_interface() {
 	return 0
 }
 
-#Check for access to airgeddon repository
-function check_repository_access() {
+# Dimatiin dulu sementara
+# function check_repository_access() {
 
-	debug_print
+# 	debug_print
 
-	if hash curl 2> /dev/null; then
+# 	if hash curl 2> /dev/null; then
 
-		if check_url_curl "https://${repository_hostname}"; then
-			return 0
-		fi
-	fi
-	return 1
-}
+# 		if check_url_curl "https://${repository_hostname}"; then
+# 			return 0
+# 		fi
+# 	fi
+# 	return 1
+# }
 
 #Check for active internet connection
-function check_internet_access() {
+#Dimatiin dulu sementara
+# function check_internet_access() {
 
-	debug_print
+# 	debug_print
 
-	for item in "${ips_to_check_internet[@]}"; do
-		if ping -c 1 "${item}" -W 1 > /dev/null 2>&1; then
-			return 0
-		fi
-	done
+# 	for item in "${ips_to_check_internet[@]}"; do
+# 		if ping -c 1 "${item}" -W 1 > /dev/null 2>&1; then
+# 			return 0
+# 		fi
+# 	done
 
-	if hash curl 2> /dev/null; then
-		if check_url_curl "https://${repository_hostname}"; then
-			return 0
-		fi
-	fi
+# 	if hash curl 2> /dev/null; then
+# 		if check_url_curl "https://${repository_hostname}"; then
+# 			return 0
+# 		fi
+# 	fi
 
-	if hash wget 2> /dev/null; then
-		if check_url_wget "https://${repository_hostname}"; then
-			return 0
-		fi
-	fi
+# 	if hash wget 2> /dev/null; then
+# 		if check_url_wget "https://${repository_hostname}"; then
+# 			return 0
+# 		fi
+# 	fi
 
-	return 1
-}
+# 	return 1
+# }
 
 #Check for access to a URL using curl
-function check_url_curl() {
-
-	debug_print
-
-	if timeout -s SIGTERM 15 curl -s "${1}" > /dev/null 2>&1; then
-		return 0
-	fi
-
-	http_proxy_detect
-	if [ "${http_proxy_set}" -eq 1 ]; then
-		timeout -s SIGTERM 15 curl -s --proxy "${http_proxy}" "${1}" > /dev/null 2>&1
-		return $?
-	fi
-	return 1
-}
+#Dimatiin dulu sementara
+# function check_url_curl() {
+# 
+	# debug_print
+# 
+	# if timeout -s SIGTERM 15 curl -s "${1}" > /dev/null 2>&1; then
+		# return 0
+	# fi
+# 
+	# http_proxy_detect
+	# if [ "${http_proxy_set}" -eq 1 ]; then
+		# timeout -s SIGTERM 15 curl -s --proxy "${http_proxy}" "${1}" > /dev/null 2>&1
+		# return $?
+	# fi
+	# return 1
+# }
 
 #Check for access to a URL using wget
 function check_url_wget() {
@@ -18010,18 +18014,19 @@ function check_url_wget() {
 }
 
 #Detect if there is a http proxy configured on the system
-function http_proxy_detect() {
+#Dimatiin dulu sementara
+# function http_proxy_detect() {
 
-	debug_print
+# 	debug_print
 
-	http_proxy=$(env | grep -i HTTP_PROXY | head -n 1 | awk -F "=" '{print $2}')
+# 	http_proxy=$(env | grep -i HTTP_PROXY | head -n 1 | awk -F "=" '{print $2}')
 
-	if [ -n "${http_proxy}" ]; then
-		http_proxy_set=1
-	else
-		http_proxy_set=0
-	fi
-}
+# 	if [ -n "${http_proxy}" ]; then
+# 		http_proxy_set=1
+# 	else
+# 		http_proxy_set=0
+# 	fi
+# }
 
 #Check for default route on an interface
 function check_default_route() {
@@ -18033,49 +18038,52 @@ function check_default_route() {
 }
 
 #Update the script if your version is outdated
-function autoupdate_check() {
+#Autoupdate sementara dimatikan
+# function autoupdate_check() {
 
-	debug_print
+# 	debug_print
 
-	echo
-	language_strings "${language}" 210 "blue"
-	echo
+# 	echo
+	# language_strings "${language}" 210 "blue"
+# 	echo
+	
+# 	# ilangin repo update dulu, biar ga ilang lagi perubahannya
+# 	if check_repository_access; then
+# 		local version_checked=0
+# 		airgeddon_last_version=$(timeout -s SIGTERM 15 curl -L ${urlscript_directlink} 2> /dev/null | grep "airgeddon_version=" | head -n 1 | cut -d "\"" -f 2)
 
-	if check_repository_access; then
-		local version_checked=0
-		airgeddon_last_version=$(timeout -s SIGTERM 15 curl -L ${urlscript_directlink} 2> /dev/null | grep "airgeddon_version=" | head -n 1 | cut -d "\"" -f 2)
+# 		if [ -n "${airgeddon_last_version}" ]; then
+# 			version_checked=1
+# 		else
+# 			http_proxy_detect
+# 			if [ "${http_proxy_set}" -eq 1 ]; then
 
-		if [ -n "${airgeddon_last_version}" ]; then
-			version_checked=1
-		else
-			http_proxy_detect
-			if [ "${http_proxy_set}" -eq 1 ]; then
+# 				airgeddon_last_version=$(timeout -s SIGTERM 15 curl --proxy "${http_proxy}" -L ${urlscript_directlink} 2> /dev/null | grep "airgeddon_version=" | head -n 1 | cut -d "\"" -f 2)
+# 				if [ -n "${airgeddon_last_version}" ]; then
+# 					version_checked=1
+# 				else
+# 					language_strings "${language}" 5 "yellow"
+# 				fi
+# 			else
+# 				language_strings "${language}" 5 "yellow"
+# 			fi
+# 		fi
 
-				airgeddon_last_version=$(timeout -s SIGTERM 15 curl --proxy "${http_proxy}" -L ${urlscript_directlink} 2> /dev/null | grep "airgeddon_version=" | head -n 1 | cut -d "\"" -f 2)
-				if [ -n "${airgeddon_last_version}" ]; then
-					version_checked=1
-				else
-					language_strings "${language}" 5 "yellow"
-				fi
-			else
-				language_strings "${language}" 5 "yellow"
-			fi
-		fi
+# 		# ini nyambung ke yang atas
+# 		if [ "${version_checked}" -eq 1 ]; then
+# 			if compare_floats_greater_than "${airgeddon_last_version}" "${airgeddon_version}"; then
+# 				language_strings "${language}" 213 "yellow"
+# 				echo ""	
+# 			else
+# 				language_strings "${language}" 212 "yellow"
+# 			fi
+# 		fi
+# 	else
+# 		language_strings "${language}" 211 "yellow"
+# 	fi
 
-		if [ "${version_checked}" -eq 1 ]; then
-			if compare_floats_greater_than "${airgeddon_last_version}" "${airgeddon_version}"; then
-				language_strings "${language}" 213 "yellow"
-				download_last_version
-			else
-				language_strings "${language}" 212 "yellow"
-			fi
-		fi
-	else
-		language_strings "${language}" 211 "yellow"
-	fi
-
-	language_strings "${language}" 115 "read"
-}
+# 	language_strings "${language}" 115 "read"
+# }
 
 #Change script language automatically if OS language is supported by the script and different from the current language
 function autodetect_language() {
