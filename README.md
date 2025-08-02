@@ -12,11 +12,24 @@
 
 Untuk instalasi `airgeddon` lihat repo aslinya aja di [Github’s wiki](https://github.com/v1s1t0r1sh3r3/airgeddon/wiki)
 
+# Apa saja yang diubah?
+
+- Version check dan autoupdate dimatikan
+
 - *I. Apa saja yang diubah?*
   - [Version check dan autoupdate dimatikan]
   - [Bug/error deauth di mode evil twin]
   - [Capitive portal evil twin]
   - [Version check]
+
+# Kenapa diubah?
+### version check dan autoupdate dimatikan
+Kedua fungsi ini tugasnya mengupdate versi dari jika ada perubahan di repository asli. Kalau ada update terbaru, file `airgeddon.sh` dan file-file yang lain diganti dengan yang baru. Skrip yang diubah cuma dua yaitu `airgeddon.sh` dan `language_strings.sh`. Kalau update aktif, otomatis hilang semua perubahannya. Buat apa ngedit cape-cape ;( 
+
+### bug/error deauth di mode evil twin
+Sejauh ini, praktek yang sudah dilakukan cuma pake adapter wifi `tl-wn722n v1`. Belum nyoba adapter yang lebih mahal karena gaada budget. Tapi adapter wifi itu juga lumayan karena sudah mendukung `VIF mode`. FYI, vif mode ini memungkinkan 1 adapter bisa dipake buat dua atau lebih mode sekaligus. Dalam kasus ini mode AP(access point) buat bikin AP palsu, dan monitor/ deauth mode buat bikin target terputus dari jaringan. 
+
+Masalahnya skrip airgeddon terbaru (per agustus 2025), skrip `deautentikasi` di mode evil twin captive portalnya tidak berjalan normal. Kasus ini mungkin tidak untuk semua wifi adapter wifi, cuma `tl-wn722n v1`. Lebih jauh tentang bug/ error di mode evil twin, buka 
 
 
 ---

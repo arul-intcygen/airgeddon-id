@@ -16679,7 +16679,6 @@ function check_update_tools() {
 			language_strings "${language}" 115 "read"
 		else
 			if [ "${update_toolsok}" -eq 1 ]; then
-				echo "Auto-update sementara dimatikan"
 				autoupdate_check
 			else
 				echo
